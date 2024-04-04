@@ -20,9 +20,28 @@ services:
         -Dhealth.max.query.time.seconds=60
         -Dgraphdb.append.request.id.headers=true
         -Dreuse.vars.in.subselects=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.graphdb.tls=true"
+      - "traefik.http.routers.graphdb.rule=Host(`graphdb2h4njqPA2Rq32A.innodrive.io`)"
+      - "traefik.http.routers.graphdb.entrypoints=websecure"
+      - "traefik.http.routers.graphdb.tls.certresolver=myresolver"
+      - "traefik.http.services.graphdb.loadbalancer.server.port=7200"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.middlewares.graphdb-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.graphdb-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.graphdb-http.middlewares=graphdb-redirect"
+    networks:
+      - internal
+      - proxy
     ports: 
       - 7200:7200
       - 7300:7300
     volumes:
       - ./graphdb-data:/opt/graphdb/home
 
+networks:
+  proxy:
+    external: true
+  internal:
+    external: false
