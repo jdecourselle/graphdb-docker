@@ -23,7 +23,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.graphdb.tls=true"
-      - "traefik.http.routers.graphdb.rule=Host(`graphdb2h4njqPA2Rq32A.innodrive.io`)"
+      - "traefik.http.routers.graphdb.rule=Host(`graphdbk96D8W9uXr2Ksm.innodrive.io`)"
       - "traefik.http.routers.graphdb.entrypoints=websecure"
       - "traefik.http.routers.graphdb.tls.certresolver=myresolver"
       - "traefik.http.services.graphdb.loadbalancer.server.port=7200"
